@@ -3,6 +3,7 @@ using ProjectName.Data;
 using Microsoft.AspNetCore.Mvc; //Responsavel pela criação das rotas
 using Microsoft.EntityFrameworkCore;
 using ProjectName.Models;
+using Microsoft.VisualBasic;
 
 
 namespace ProjectName.Controllers
@@ -55,6 +56,23 @@ namespace ProjectName.Controllers
             dc.pessoa.Update(p);
             await dc.SaveChangesAsync();
             return Ok(p);
+        }
+
+        [HttpDelete("api/{codigo}")]
+
+        public async Task<ActionResult> Remover(int codigo)
+        {
+            Pessoa p = Filtrar(codigo);
+
+            if(p == null)
+            {
+                return NotFound();
+            }else
+            {
+                dc.pessoa.Remove(p);
+                await dc.SaveChangesAsync();
+                return Ok();
+            }
         }
 
         [HttpGet("oi")]
